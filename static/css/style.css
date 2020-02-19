@@ -1,0 +1,59 @@
+@font-face {
+    font-family: 'hyzt';
+    src: url(../font/hyzt.ttf);
+}
+
+
+#msg {
+    display: none;
+    color: black;
+    position: absolute;
+    z-index: 100;
+    font-size: 18px;
+    user-select: none;
+    animation: popup 3s, changecolor 3s;
+}
+
+#followMouseContent {
+    color: black;
+    position: absolute;
+    z-index: 100;
+    font-size: 18px;
+    color: rgb(39, 215, 238);
+    opacity: 0.9;
+    user-select: none;
+    transition: 2s;
+    animation: changecolor 1.5s infinite linear;
+}
+
+span {
+    font-family: 'hyzt';
+}
+
+@keyframes popup {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        top: 10px;
+    }
+}
+
+@keyframes changecolor {
+    0% {
+        color: #ff0e42;
+    }
+
+    50% {
+        color: rgb(0, 255, 115);
+    }
+
+    100% {
+        color: rgb(245, 106, 233);
+    }
+}
