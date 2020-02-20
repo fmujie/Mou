@@ -10,6 +10,7 @@
     position: absolute;
     z-index: 100;
     font-size: 18px;
+    font-family: 'hyzt';
     user-select: none;
     animation: popup 3s, changecolor 3s;
 }
@@ -19,7 +20,6 @@
     position: absolute;
     z-index: 100;
     font-size: 18px;
-    font-family: 'hyzt';
     color: rgb(39, 215, 238);
     opacity: 0.9;
     user-select: none;
