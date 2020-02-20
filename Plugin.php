@@ -52,6 +52,7 @@ class Mou_Plugin implements Typecho_Plugin_Interface
         $staticDir = Helper::options()->pluginUrl . '/Mou/static/';
         $mouseFollowImageDir = $staticDir . 'images';
 
+        //原先Hello World保留
         $name = new Typecho_Widget_Helper_Form_Element_Text('word', null, 'Mou', _t('说点什么'));
         $form->addInput($name);
         
@@ -85,7 +86,7 @@ class Mou_Plugin implements Typecho_Plugin_Interface
         echo '<span class="message success">'
         . htmlspecialchars(Typecho_Widget::widget('Widget_Options')->plugin('Mou')->word)
             . '</span>';
-        $heads = 1;
+        $heads = 1;//暂定开关
         $StaticCssUrl = Helper::options()->pluginUrl . '/Mou/static/css/';
         $StaticJsUrl = Helper::options()->pluginUrl . '/Mou/static/js/';
         if ($heads == 1) {
@@ -111,12 +112,12 @@ class Mou_Plugin implements Typecho_Plugin_Interface
      */
     public static function footer()
     {
-        $followType = Typecho_Widget::widget('Widget_Options')->plugin('Mou')->followType;
         $dir = self::STATIC_DIR;
-        $js = '';
         $StaticJsUrl = Helper::options()->pluginUrl . '/Mou/static/js/';
+        $followType = Typecho_Widget::widget('Widget_Options')->plugin('Mou')->followType;
         echo '<script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>';
         $mouseFollowImageDir = $dir . '/images';
+        // 调试部分
         // $test = 'test';
         // echo '<script type="text/javascript" src="' . $followType . $test . 'main.js"></script>';
         self::handleFollowType($followType);
