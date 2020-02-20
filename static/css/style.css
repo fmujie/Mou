@@ -19,15 +19,12 @@
     position: absolute;
     z-index: 100;
     font-size: 18px;
+    font-family: 'hyzt';
     color: rgb(39, 215, 238);
     opacity: 0.9;
     user-select: none;
     transition: 2s;
     animation: changecolor 1.5s infinite linear;
-}
-
-#msg {
-    font-family: 'hyzt';
 }
 
 @keyframes popup {
