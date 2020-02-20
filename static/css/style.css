@@ -26,7 +26,7 @@
     animation: changecolor 1.5s infinite linear;
 }
 
-span {
+#msg {
     font-family: 'hyzt';
 }
 

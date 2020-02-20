@@ -4,4 +4,4 @@
 
 ### 启用方法
 
-#### git clone至Plugin文件夹下，后台启用即可。
+#### git clone至plugins文件夹下，后台启用即可。
