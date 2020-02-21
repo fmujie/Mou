@@ -174,6 +174,7 @@ class Mou_Plugin implements Typecho_Plugin_Interface
                 console.log(456)
                 var elment = $(el.target)
                 var tagName = elment.prop('tagName')
+                console.log(tagName)
                 if (tagName == 'IMG') {
                     imgSrc = elment.attr('src')
                     activateAlert(imgSrc)
