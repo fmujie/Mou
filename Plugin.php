@@ -66,12 +66,12 @@ class Mou_Plugin implements Typecho_Plugin_Interface
 
         //imagesExpand开关
         $imgOptions = [
-            'default' => _t('关闭'),
+            // 'default' => _t('关闭'),
             '800' => _t('适中'),
             '1000' => _('较大'),
             '1200' => _t('最大'),
         ];
-        $expandImgType = new Typecho_Widget_Helper_Form_Element_Radio('expandImgType', $imgOptions, 'default', _t('图片双击放大效果，默认关闭(推荐适中)'));
+        $expandImgType = new Typecho_Widget_Helper_Form_Element_Radio('expandImgType', $imgOptions, '800', _t('图片双击放大效果，默认适中'));
         $form->addInput($expandImgType);
 
         //imagesExpandBg选择
@@ -141,17 +141,17 @@ class Mou_Plugin implements Typecho_Plugin_Interface
         // 调试部分
         // $test = 'test';
         // echo '<script type="text/javascript" src="' . $followType . $test . 'main.js"></script>';
-        self::handleFollowType($followType);
-        if($expandImgType != 'default') {
-            echo '<script type="text/javascript" src="' . $expandImgType . $expandImgBgType . 'main.js"></script>';
-            echo '<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>';
-            self::handleImgExType($$expandImgType, $expandImgBgType);
-        }
+        echo '<script type="text/javascript" src="' . $expandImgType . $expandImgBgType . 'main.js"></script>';
+        echo '<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>';
+        self::handleFollowType($followType, $expandImgType, $expandImgBgType);
+        // if($expandImgType != 'default') {
+        // self::handleImgExType($$expandImgType, $expandImgBgType);
+        // }
         echo '<script type="text/javascript" src="' . $StaticJsUrl . 'main.js"></script>';
     }
 
     /*mouseFollowStyle*/
-    private static function handleFollowType($followType)
+    private static function handleFollowType($followType, $expandImgType, $expandImgBgType)
     {
         if ($followType != 'default') {
             $followTypeImage = $followType . '.ico';
@@ -170,22 +170,7 @@ class Mou_Plugin implements Typecho_Plugin_Interface
                 mms.style.left = cx + "px";
                 mms.style.top = cy + "px";
                 });
-            });
-JS;
-            $js .= '</script>';
-            echo $js;
-        } else {
-            echo '';
-        }
-    }
-    /*imgExpandType*/
-    private static function handleImgExType($expandImgType, $expandImgBgType)
-    {
-        $js .= '<script>';
-        $js .= <<<JS
-        $(document).ready(function () {
-            console.log(123)
-            $(document).dblclick(function (el) {
+                $(document).dblclick(function (el) {
                 console.log(456)
                 var elment = $(el.target)
                 var tagName = elment.prop('tagName')
@@ -219,9 +204,25 @@ JS;
                     showConfirmButton: false,
                 })
             }
-        });
+            });
 JS;
-        $js .= '</script>';
-        echo $js;
+            $js .= '</script>';
+            echo $js;
+        } else {
+            echo '';
+        }
     }
+    /*imgExpandType*/
+//     private static function handleImgExType($expandImgType, $expandImgBgType)
+//     {
+//         $js .= '<script>';
+//         $js .= <<<JS
+//         $(document).ready(function () {
+//             console.log(123)
+            
+//         });
+// JS;
+//         $js .= '</script>';
+//         echo $js;
+//     }
 }
