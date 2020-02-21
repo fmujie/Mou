@@ -66,12 +66,12 @@ class Mou_Plugin implements Typecho_Plugin_Interface
 
         //imagesExpand开关
         $imgOptions = [
-            // 'default' => _t('关闭'),
+            'default' => _t('关闭'),
             '800' => _t('适中'),
             '1000' => _('较大'),
             '1200' => _t('最大'),
         ];
-        $expandImgType = new Typecho_Widget_Helper_Form_Element_Radio('expandImgType', $imgOptions, '800', _t('图片双击放大效果，默认适中'));
+        $expandImgType = new Typecho_Widget_Helper_Form_Element_Radio('expandImgType', $imgOptions, 'default', _t('图片双击放大效果，默认关闭'));
         $form->addInput($expandImgType);
 
         //imagesExpandBg选择
@@ -80,7 +80,7 @@ class Mou_Plugin implements Typecho_Plugin_Interface
             'rgba(160,238,225,0.4)' => _('纯净绿'),
             'rgba(236,173,158,0.4)' => _t('暖心红'),
         ];
-        $expandImgBgType = new Typecho_Widget_Helper_Form_Element_Radio('expandImgBgType', $imgBgOptions, 'rgba(0,0,123,0.4)', _t('图片双击放大后的背景颜色，默认幻影紫'));
+        $expandImgBgType = new Typecho_Widget_Helper_Form_Element_Radio('expandImgBgType', $imgBgOptions, 'rgba(0,0,123,0.4)', _t('图片双击放大后的背景颜色，默认幻影紫(启用图片放大后生效)'));
         $form->addInput($expandImgBgType);
     }
 
@@ -122,8 +122,11 @@ class Mou_Plugin implements Typecho_Plugin_Interface
     public static function header()
     {
         $StaticCssUrl = Helper::options()->pluginUrl . '/Mou/static/css/';
+        $expandImgType = Typecho_Widget::widget('Widget_Options')->plugin('Mou')->expandImgType;
         echo '<link rel="stylesheet" href=" ' . $StaticCssUrl . 'style.css"/>';
-        echo '<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>';
+        if($expandImgType != 'default') {
+            echo '<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>';
+        }
     }
 
     /**
@@ -144,14 +147,14 @@ class Mou_Plugin implements Typecho_Plugin_Interface
         // echo '<script type="text/javascript" src="' . $followType . $test . 'main.js"></script>';
         echo '<script type="text/javascript" src="' . $expandImgType . $expandImgBgType . 'main.js"></script>';
         self::handleFollowType($followType, $expandImgType, $expandImgBgType);
-        // if($expandImgType != 'default') {
-        // self::handleImgExType($$expandImgType, $expandImgBgType);
-        // }
+        if($expandImgType != 'default') {
+            self::handleImgExType($$expandImgType, $expandImgBgType);
+        }
         echo '<script type="text/javascript" src="' . $StaticJsUrl . 'main.js"></script>';
     }
 
     /*mouseFollowStyle*/
-    private static function handleFollowType($followType, $expandImgType, $expandImgBgType)
+    private static function handleFollowType($followType)
     {
         if ($followType != 'default') {
             $followTypeImage = $followType . '.ico';
@@ -170,7 +173,22 @@ class Mou_Plugin implements Typecho_Plugin_Interface
                 mms.style.left = cx + "px";
                 mms.style.top = cy + "px";
                 });
-                $(document).dblclick(function (el) {
+            });
+JS;
+            $js .= '</script>';
+            echo $js;
+        } else {
+            echo '';
+        }
+    }
+    /*imgExpandType*/
+    private static function handleImgExType($expandImgType, $expandImgBgType)
+    {
+        $js .= '<script>';
+        $js .= <<<JS
+        $(document).ready(function () {
+            console.log(123)
+            $(document).dblclick(function (el) {
                 console.log(456)
                 var elment = $(el.target)
                 var tagName = elment.prop('tagName')
@@ -201,30 +219,14 @@ class Mou_Plugin implements Typecho_Plugin_Interface
                     width: {$expandImgType},
                     padding: 20,
                     imageUrl: imgSrc,
-                    imageClass: 'moderate_enlarged',
+                    imageClass: selectedCriteria,
                     backdrop: '{$expandImgBgType}',
                     showConfirmButton: false,
                 })
             }
-            });
+        });
 JS;
-            $js .= '</script>';
-            echo $js;
-        } else {
-            echo '';
-        }
+        $js .= '</script>';
+        echo $js;
     }
-    /*imgExpandType*/
-//     private static function handleImgExType($expandImgType, $expandImgBgType)
-//     {
-//         $js .= '<script>';
-//         $js .= <<<JS
-//         $(document).ready(function () {
-//             console.log(123)
-            
-//         });
-// JS;
-//         $js .= '</script>';
-//         echo $js;
-//     }
 }
