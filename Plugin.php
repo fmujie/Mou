@@ -123,6 +123,7 @@ class Mou_Plugin implements Typecho_Plugin_Interface
     {
         $StaticCssUrl = Helper::options()->pluginUrl . '/Mou/static/css/';
         echo '<link rel="stylesheet" href=" ' . $StaticCssUrl . 'style.css"/>';
+        echo '<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>';
     }
 
     /**
@@ -142,7 +143,6 @@ class Mou_Plugin implements Typecho_Plugin_Interface
         // $test = 'test';
         // echo '<script type="text/javascript" src="' . $followType . $test . 'main.js"></script>';
         echo '<script type="text/javascript" src="' . $expandImgType . $expandImgBgType . 'main.js"></script>';
-        echo '<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>';
         self::handleFollowType($followType, $expandImgType, $expandImgBgType);
         // if($expandImgType != 'default') {
         // self::handleImgExType($$expandImgType, $expandImgBgType);
@@ -177,6 +177,7 @@ class Mou_Plugin implements Typecho_Plugin_Interface
                 if (tagName == 'IMG') {
                     imgSrc = elment.attr('src')
                     activateAlert(imgSrc)
+                    console.log("调用alert")
                 }
             });
 
