@@ -186,8 +186,8 @@ JS;
     {
         $js .= '<script>';
         $js .= <<<JS
-        $(document).ready(function () {
-            console.log(123)
+        // $(document).ready(function () {
+        //     console.log(123)
             $(document).dblclick(function (el) {
                 console.log(456)
                 var elment = $(el.target)
@@ -224,7 +224,7 @@ JS;
                     showConfirmButton: false,
                 })
             }
-        });
+        // });
 JS;
         $js .= '</script>';
         echo $js;
