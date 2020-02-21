@@ -144,8 +144,8 @@ class Mou_Plugin implements Typecho_Plugin_Interface
         self::handleFollowType($followType);
         if($expandImgType != 'default') {
             echo '<script type="text/javascript" src="' . $expandImgType . $expandImgBgType . 'main.js"></script>';
-            echo '<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>'
-            self::handleImgExType($$expandImgType, $expandImgBgType)
+            echo '<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>';
+            self::handleImgExType($$expandImgType, $expandImgBgType);
         }
         echo '<script type="text/javascript" src="' . $StaticJsUrl . 'main.js"></script>';
     }
