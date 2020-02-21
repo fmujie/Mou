@@ -27,6 +27,18 @@
     animation: changecolor 1.5s infinite linear;
 }
 
+.moderate_enlarged {
+    width: 800px;
+}
+
+.larger_enlarged {
+    width: 1000px;
+}
+
+.largest_enlarged {
+    width: 1200px;
+}
+
 @keyframes popup {
     0% {
         opacity: 1;

@@ -63,6 +63,25 @@ class Mou_Plugin implements Typecho_Plugin_Interface
         ];
         $followType = new Typecho_Widget_Helper_Form_Element_Radio('followType', $options, 'default', _t('follow样式，默认关闭'));
         $form->addInput($followType);
+
+        //imagesExpand开关
+        $imgOptions = [
+            'default' => _t('关闭'),
+            '800' => _t('适中'),
+            '1000' => _('较大'),
+            '1200' => _t('最大'),
+        ];
+        $expandImgType = new Typecho_Widget_Helper_Form_Element_Radio('expandImgType', $imgOptions, 'default', _t('图片双击放大效果，默认关闭(推荐适中)'));
+        $form->addInput($expandImgType);
+
+        //imagesExpandBg选择
+        $imgBgOptions = [
+            'rgba(0,0,123,0.4)' => _t('幻影紫'),
+            'rgba(160,238,225,0.4)' => _('纯净绿'),
+            'rgba(236,173,158,0.4)' => _t('暖心红'),
+        ];
+        $expandImgBgType = new Typecho_Widget_Helper_Form_Element_Radio('expandImgBgType', $imgBgOptions, 'rgba(0,0,123,0.4)', _t('图片双击放大后的背景颜色，默认幻影紫'));
+        $form->addInput($expandImgBgType);
     }
 
     /**
@@ -115,12 +134,19 @@ class Mou_Plugin implements Typecho_Plugin_Interface
         $dir = self::STATIC_DIR;
         $StaticJsUrl = Helper::options()->pluginUrl . '/Mou/static/js/';
         $followType = Typecho_Widget::widget('Widget_Options')->plugin('Mou')->followType;
+        $expandImgType = Typecho_Widget::widget('Widget_Options')->plugin('Mou')->expandImgType;
+        $expandImgBgType = Typecho_Widget::widget('Widget_Options')->plugin('Mou')->expandImgBgType;
         echo '<script type="text/javascript" src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>';
         $mouseFollowImageDir = $dir . '/images';
         // 调试部分
         // $test = 'test';
         // echo '<script type="text/javascript" src="' . $followType . $test . 'main.js"></script>';
         self::handleFollowType($followType);
+        if($expandImgType != 'default') {
+            echo '<script type="text/javascript" src="' . $expandImgType . $expandImgBgType . 'main.js"></script>';
+            // echo '<script src="https://cdn.bootcss.com/limonte-sweetalert2/7.33.1/sweetalert2.all.js"></script>'
+            // self::handleImgExType($$expandImgType, $expandImgBgType)
+        }
         echo '<script type="text/javascript" src="' . $StaticJsUrl . 'main.js"></script>';
     }
 
@@ -151,5 +177,49 @@ JS;
         } else {
             echo '';
         }
+    }
+    /*imgExpandType*/
+    private static function handleImgExType($expandImgType, $expandImgBgType)
+    {
+        $js .= '<script>';
+        $js .= <<<JS
+        $(document).ready(function () {
+            $(document).dblclick(function (el) {
+                var elment = $(el.target)
+                var tagName = elment.prop('tagName')
+                if (tagName == 'IMG') {
+                    imgSrc = elment.attr('src')
+                    activateAlert(imgSrc)
+                }
+            });
+
+            function activateAlert(imgSrc) {
+                var selectedCriteria = ''
+                switch (expandImgType) {
+                    case 800:
+                        selectedCriteria = 'moderate_enlarged'
+                        break;
+                    case 1000:
+                        selectedCriteria = 'larger_enlarged'
+                        break;
+                    case 1200:
+                        selectedCriteria = 'largest_enlarged'
+                        break;
+                    default:
+                        break;
+                }
+                swal({
+                    width: {$expandImgType},
+                    padding: 20,
+                    imageUrl: imgSrc,
+                    imageClass: selectedCriteria,
+                    backdrop: {$expandImgBgType},
+                    showConfirmButton: false,
+                })
+            }
+        });
+JS;
+        $js .= '</script>';
+        echo $js;
     }
 }
