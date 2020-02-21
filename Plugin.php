@@ -184,7 +184,7 @@ class Mou_Plugin implements Typecho_Plugin_Interface
 
             function activateAlert(imgSrc) {
                 var selectedCriteria = ''
-                switch (expandImgType) {
+                switch ({$expandImgType}) {
                     case 800:
                         selectedCriteria = 'moderate_enlarged'
                         break;
